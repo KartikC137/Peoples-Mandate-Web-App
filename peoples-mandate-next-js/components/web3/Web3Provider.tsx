@@ -26,7 +26,6 @@ declare global {
 
 // finds supported chain by viem, currently only test chains enabled
 const supportedChains: Record<number, Chain> = {
-  [anvil.id]: anvil,
   [sepolia.id]: sepolia,
 };
 interface Web3ProviderProps {

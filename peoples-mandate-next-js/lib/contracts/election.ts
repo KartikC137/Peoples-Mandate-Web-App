@@ -1,4 +1,4 @@
-export const abi = [
+export const electionContractAbi = [
   {
     type: "function",
     name: "addCandidate",
@@ -88,6 +88,36 @@ export const abi = [
   },
   {
     type: "function",
+    name: "getElectionId",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getElectionInfo",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        internalType: "struct Election.ElectionInfo",
+        components: [
+          { name: "startTime", type: "uint64", internalType: "uint64" },
+          { name: "endTime", type: "uint64", internalType: "uint64" },
+          { name: "name", type: "string", internalType: "string" },
+          {
+            name: "description",
+            type: "string",
+            internalType: "string",
+          },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
     name: "getElectionStatus",
     inputs: [],
     outputs: [{ name: "", type: "bool", internalType: "bool" }],
@@ -118,6 +148,13 @@ export const abi = [
     type: "function",
     name: "initialize",
     inputs: [
+      {
+        name: "_worldId",
+        type: "address",
+        internalType: "contract IWorldID",
+      },
+      { name: "_appId", type: "string", internalType: "string" },
+      { name: "_action", type: "string", internalType: "string" },
       {
         name: "_electionInfo",
         type: "tuple",
@@ -152,8 +189,8 @@ export const abi = [
         ],
       },
       { name: "_resultType", type: "uint256", internalType: "uint256" },
-      { name: "_electionId", type: "uint256", internalType: "uint256" },
       { name: "_ballot", type: "address", internalType: "address" },
+      { name: "_electionId", type: "uint256", internalType: "uint256" },
       { name: "_owner", type: "address", internalType: "address" },
       {
         name: "_resultCalculator",
@@ -202,16 +239,18 @@ export const abi = [
   {
     type: "function",
     name: "userVote",
-    inputs: [{ name: "voteArr", type: "uint256[]", internalType: "uint256[]" }],
+    inputs: [
+      { name: "voteArr", type: "uint256[]", internalType: "uint256[]" },
+      { name: "root", type: "uint256", internalType: "uint256" },
+      {
+        name: "nullifierHash",
+        type: "uint256",
+        internalType: "uint256",
+      },
+      { name: "proof", type: "uint256[8]", internalType: "uint256[8]" },
+    ],
     outputs: [],
     stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "usersToIsVoted",
-    inputs: [{ name: "user", type: "address", internalType: "address" }],
-    outputs: [{ name: "isVoted", type: "bool", internalType: "bool" }],
-    stateMutability: "view",
   },
   {
     type: "function",
@@ -290,7 +329,6 @@ export const abi = [
     ],
     anonymous: false,
   },
-  { type: "error", name: "Election_AlreadyVoted", inputs: [] },
   {
     type: "error",
     name: "Election_CandidateAlreadyRemoved",
@@ -318,5 +356,6 @@ export const abi = [
   },
   { type: "error", name: "Election_VotesUnavailable", inputs: [] },
   { type: "error", name: "InvalidInitialization", inputs: [] },
+  { type: "error", name: "InvalidNullifier", inputs: [] },
   { type: "error", name: "NotInitializing", inputs: [] },
 ];

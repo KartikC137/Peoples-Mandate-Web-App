@@ -1,9 +1,11 @@
-export const abi = [
+export const electionFactoryContractAbi = [
   { type: "constructor", inputs: [], stateMutability: "nonpayable" },
   {
     type: "function",
     name: "createElection",
     inputs: [
+      { name: "_appId", type: "string", internalType: "string" },
+      { name: "_action", type: "string", internalType: "string" },
       {
         name: "_electionInfo",
         type: "tuple",
@@ -110,7 +112,20 @@ export const abi = [
   },
   {
     type: "event",
-    name: "ElectionCreated",
+    name: "ElectionCreatedAddress",
+    inputs: [
+      {
+        name: "electionAddress",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "ElectionCreatedInfo",
     inputs: [
       {
         name: "creator",
